@@ -1,0 +1,10 @@
+**/.venv
+**/__pycache__
+**/.pytest_cache
+**/.env
+.git
+backend/tests
+backend/pytest.ini
+backend/requirements-dev.txt
+*.zip
+*.md

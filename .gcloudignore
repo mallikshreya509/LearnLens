@@ -1,0 +1,10 @@
+# Controls what `gcloud run deploy --source .` uploads. Keeps secrets and the local venv off Google's servers.
+.gcloudignore
+.git
+.gitignore
+**/.venv/
+**/__pycache__/
+**/.pytest_cache/
+**/.env
+backend/tests/
+*.zip
