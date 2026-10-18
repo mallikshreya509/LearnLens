@@ -6,14 +6,21 @@
 <title>LearnLens</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Schibsted+Grotesk:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
 <script src="config.js"></script>
 </head>
 <body>
 
 <header class="top">
-  <div class="brand">LearnLens</div>
+  <div class="brand">
+    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <circle cx="14" cy="14" r="10" fill="#fff" stroke="currentColor" stroke-width="2.6"/>
+      <rect x="8.5" y="12.2" width="11" height="4" rx="1.2" fill="#FFE066"/>
+      <path d="M21.5 21.5 29 29" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>
+    </svg>
+    LearnLens
+  </div>
   <div class="status" role="status">
     <span class="dot" id="status-dot" aria-hidden="true"></span>
     <span id="status-text">Checking server…</span>
@@ -29,7 +36,7 @@
   <!-- Intake -->
   <section class="intake" id="intake">
     <h1>Paste a transcript. Get a study guide you can check.</h1>
-    <p class="lede">Paste text or a YouTube link. Plain text, timestamped lines, SRT and VTT all work. Every quote in the result is matched back to your transcript.</p>
+    <p class="lede">Drop in a YouTube link or paste the transcript. Every quote in your study guide is matched back to the source, and anything that can’t be found is removed.</p>
 
     <section class="resume" id="resume" aria-labelledby="resume-head" hidden>
       <h2 id="resume-head">Pick up where you left off</h2>
@@ -47,13 +54,15 @@
       <p class="muted yt-note" id="yt-note" role="status">Uses the video’s captions, or Gemini listens to the video when there are none. Public videos only.</p>
     </div>
 
+    <p class="or"><span>or paste the transcript</span></p>
+
     <div class="field">
       <label for="video-title">Video title (optional)</label>
       <input type="text" id="video-title" autocomplete="off">
     </div>
     <div class="field">
       <label for="transcript">Transcript</label>
-      <textarea id="transcript" spellcheck="false"></textarea>
+      <textarea id="transcript" spellcheck="false" placeholder="Plain text, timestamped lines, SRT and VTT all work."></textarea>
     </div>
 
     <div class="row">
@@ -63,6 +72,23 @@
     </div>
     <div class="busy" id="busy" role="status" hidden>Reading the transcript. Long transcripts can take up to a minute.</div>
     <div class="error" id="error" role="alert" hidden></div>
+
+    <aside class="demo" aria-label="Example of a checked quote">
+      <div class="demo-stage" aria-hidden="true">
+        <div class="demo-sheet">
+          <p class="demo-title">How Neural Networks Learn</p>
+          <div class="demo-line"><span class="t">00:44</span><span class="x">Squaring makes sure that big mistakes are punished much more than small ones.</span></div>
+          <div class="demo-line"><span class="t">01:12</span><span class="x">Training means finding values for those weights and biases that make the loss as small as possible.</span></div>
+          <div class="demo-line hit"><span class="t">01:35</span><span class="x">…So you take a step downhill, feel the slope again, and repeat. <mark>That is the intuition behind gradient descent.</mark></span></div>
+        </div>
+        <div class="demo-concept">
+          <p class="demo-name">Gradient descent</p>
+          <p class="demo-def">Stepping the weights downhill, again and again, until the loss stops shrinking.</p>
+          <p class="demo-proof"><span class="demo-ok">Verified in transcript</span><span class="demo-at">01:35</span></p>
+        </div>
+      </div>
+      <p class="demo-note">Quotes that can’t be found in your transcript are removed. They are never shown as verified.</p>
+    </aside>
   </section>
 
   <!-- Study workspace -->

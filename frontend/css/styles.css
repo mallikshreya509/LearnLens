@@ -14,6 +14,7 @@
   --warn-soft: #FBE8C8;
   --bad: #B3261E;
   --bad-soft: #FBE9E7;
+  --display: "Bricolage Grotesque", "Schibsted Grotesk", system-ui, sans-serif;
   --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
   --sans: "Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
@@ -36,7 +37,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
   display: flex; align-items: center; justify-content: space-between; gap: 1rem;
   padding: 1rem clamp(1rem, 4vw, 2.5rem);
 }
-.brand { font: 600 1.3rem/1 var(--serif); letter-spacing: -0.015em; }
+.brand { display: inline-flex; align-items: center; gap: .5rem; font: 700 1.4rem/1 var(--display); letter-spacing: -0.02em; }
+.brand svg { width: 1.75rem; height: 1.75rem; }
 .status { display: flex; align-items: center; gap: .5rem; font-size: .875rem; color: var(--muted); }
 .dot { width: .55rem; height: .55rem; border-radius: 50%; background: var(--muted); }
 .dot.live { background: var(--ok); }
@@ -90,14 +92,107 @@ input[type=text], select, textarea {
 .hint { margin: 0 0 1.25rem; color: var(--muted); max-width: 40rem; }
 .actions { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; margin-top: .75rem; }
 
-/* ---------- intake ---------- */
-.intake { max-width: 46rem; padding: 1.5rem clamp(1rem, 4vw, 2.5rem) 4rem; }
-.lede { margin: 0 0 1.75rem; color: var(--muted); max-width: 36rem; }
+/* ---------- intake (home page) ---------- */
+.intake {
+  display: grid; grid-template-columns: minmax(0, 1fr);
+  max-width: 82rem; overflow-x: clip;
+  padding: 1rem clamp(1rem, 4vw, 2.5rem) 4rem;
+}
+.intake > * { grid-column: 1; }
+.intake > .demo { margin-top: 3rem; }
+@media (min-width: 1000px) {
+  .intake { grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr); column-gap: clamp(2.5rem, 5vw, 5rem); padding-top: 2rem; }
+  .intake > .demo { grid-column: 2; grid-row: 1 / span 20; margin-top: 0; position: sticky; top: 1.5rem; align-self: start; }
+}
+.intake h1 {
+  margin: 0 0 1.1rem; max-width: 13em;
+  font: 800 clamp(2.5rem, 4.7vw, 4.2rem)/1.02 var(--display);
+  letter-spacing: -0.035em; text-wrap: balance;
+}
+.lede { margin: 0 0 2rem; color: var(--muted); max-width: 33rem; font-size: 1.125rem; line-height: 1.5; }
 .field { margin-bottom: 1.1rem; }
-textarea { min-height: 17rem; resize: vertical; font-family: var(--serif); line-height: 1.6; }
+.intake label { font-size: .9375rem; font-weight: 600; }
+.intake input[type=text], .intake textarea {
+  background: #fff; border-color: rgba(23, 32, 42, .22); border-radius: 8px;
+}
+.intake input[type=text]:hover, .intake textarea:hover { border-color: rgba(23, 32, 42, .5); }
+textarea { min-height: 12rem; resize: vertical; font-family: var(--serif); line-height: 1.6; }
+.or { display: flex; align-items: center; gap: 1rem; margin: 1.6rem 0 1.3rem; color: var(--muted); font-size: .9375rem; }
+.or::before, .or::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
 .row { display: flex; flex-wrap: wrap; align-items: center; gap: .9rem; margin-top: 1.1rem; }
+#analyze { padding: .95rem 1.7rem; font-size: 1.0625rem; border-radius: 10px; }
 .count { margin-left: auto; font-size: .875rem; color: var(--muted); }
 .busy { margin-top: 1rem; color: var(--muted); }
+
+/* The example: a transcript line is highlighted, then a concept is checked against its timestamp.
+   Plays once on load. Yellow always means evidence. */
+.demo { min-width: 0; }
+.demo-stage { position: relative; isolation: isolate; padding: 3.25rem 0 4.25rem; }
+.demo-stage::before {      /* the lens */
+  content: ""; position: absolute; z-index: -1; aspect-ratio: 1; width: 106%; right: -5%; top: 50%; transform: translateY(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, .85), rgba(230, 234, 251, .6) 52%, rgba(36, 56, 208, .13));
+  border: 1px solid rgba(36, 56, 208, .28);
+  box-shadow: inset 0 0 0 14px rgba(36, 56, 208, .04), inset 0 0 0 15px rgba(36, 56, 208, .14);
+}
+.demo-sheet {
+  position: relative; width: 90%; margin-left: 1%;
+  background: var(--sheet); border: 1px solid var(--rule); border-radius: 4px;
+  padding: 1.1rem 1.3rem 1.2rem;
+}
+.demo-sheet::before, .demo-sheet::after {   /* sheets underneath */
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: var(--sheet); border: 1px solid var(--rule); border-radius: 4px;
+}
+.demo-sheet::before { transform: rotate(2.4deg) translate(.55rem, .3rem); }
+.demo-sheet::after { transform: rotate(-2.8deg) translate(-.4rem, .55rem); }
+.demo-title { margin: 0 0 .8rem; padding-bottom: .65rem; border-bottom: 1px solid var(--rule); font: 700 1.05rem/1.2 var(--display); letter-spacing: -0.01em; }
+.demo-line { display: grid; grid-template-columns: 3.1rem minmax(0, 1fr); gap: .6rem; margin: 0 -.5rem; padding: .5rem .5rem; border-radius: 4px; }
+.demo-line .t { padding-top: .2rem; font-size: .8125rem; font-variant-numeric: tabular-nums; color: var(--muted); }
+.demo-line .x { font: 400 1.0625rem/1.55 var(--serif); }
+.demo-line.hit .t { align-self: start; width: fit-content; height: fit-content; padding: .15rem .35rem; border-radius: 4px; color: var(--ink); font-weight: 600; animation: chip 1s .7s both; }
+.demo-line mark {
+  color: inherit; padding: .05em .1em; margin: 0 -.1em; border-radius: 2px;
+  background: linear-gradient(var(--mark), var(--mark)) no-repeat left / 100% 100%;
+  box-shadow: inset 0 -.14em 0 var(--mark-edge);
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  animation: sweep 1s .7s cubic-bezier(.6, 0, .2, 1) both;
+}
+.demo-concept {
+  position: relative; width: 82%; margin: -.9rem 0 0 auto;
+  padding: 1.15rem 1.3rem 1.2rem; border-radius: 6px 22px 6px 22px;
+  background: var(--ink); color: #fff;
+  animation: rise .7s 1.55s cubic-bezier(.2, .7, .2, 1) both;
+}
+.demo-concept::before {   /* points up at the highlighted line */
+  content: ""; position: absolute; top: -.55rem; left: 2.2rem; width: 1.1rem; height: 1.1rem;
+  background: var(--ink); transform: rotate(45deg); border-radius: 2px;
+}
+.demo-name { margin: 0 0 .3rem; font: 700 1.35rem/1.15 var(--display); letter-spacing: -0.02em; }
+.demo-def { margin: 0 0 .95rem; color: rgba(255, 255, 255, .76); font-size: .9375rem; line-height: 1.45; }
+.demo-proof { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin: 0; }
+.demo-ok {
+  padding: .2rem .6rem; border-radius: 99px; background: var(--ok-soft); color: var(--ok);
+  font-size: .8125rem; font-weight: 600; animation: pop .5s 2.1s cubic-bezier(.3, 1.6, .5, 1) both;
+}
+.demo-ok::before { content: "\2713\00a0"; }
+.demo-at {
+  padding: .2rem .5rem; border-radius: 4px; background: var(--mark); color: var(--ink);
+  font-size: .8125rem; font-weight: 600; font-variant-numeric: tabular-nums;
+}
+.demo-note { margin: .5rem 0 0; max-width: 28rem; color: var(--muted); font-size: .9375rem; }
+@keyframes sweep { from { background-size: 0 100%; box-shadow: none; } to { background-size: 100% 100%; } }
+@keyframes chip { from { background: transparent; } to { background: var(--mark); } }
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes pop { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .demo-line.hit .t, .demo-line mark, .demo-concept, .demo-ok { animation: none; }
+  .demo-line.hit .t { background: var(--mark); }
+}
+@media (max-width: 560px) {
+  .demo-sheet { width: 94%; }
+  .demo-concept { width: 90%; }
+}
 
 /* ---------- workspace ---------- */
 .workspace {
