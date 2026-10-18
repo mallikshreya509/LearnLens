@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from .schemas import LLMAnalysis, Segment
 from .transcript import render_for_prompt
 
-DEFAULT_MODEL = "gemini-2.5-flash"
+DEFAULT_MODEL = "gemini-3.8-flash"
 
 T = TypeVar("T", bound=BaseModel)
 
