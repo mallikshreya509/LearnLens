@@ -16,12 +16,7 @@ plus a concept map, grounded Q&A, quizzes and a tutor that finds your gaps and p
 
 Plus **Ask the video**: questions answered only from the transcript, with the lines the answer relies on.
 
-## How it was built
 
-- **Day 1:** transcript → summary → concepts → verified evidence
-- **Day 2:** concept map, grounded Q&A, quizzes
-- **Day 3:** tutor that detects gaps and chooses the next learning action
-- **Deploy:** one container on Google Cloud Run. See [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ```
 learnlens/
@@ -89,7 +84,7 @@ python -m pytest
 ## Deploy it
 
 Follow [DEPLOYMENT.md](DEPLOYMENT.md): about 15 minutes to a public Cloud Run URL, with the Gemini key kept in Secret
-Manager. Read its "Cost and abuse" section before sharing the link, because the app has no login or rate limiting yet.
+Manager. 
 
 ## The tutor
 
@@ -182,5 +177,4 @@ and keeps the learner's progress itself (`frontend/js/store.js`).
   mistakes. The interface says which route was used. The Gemini route is a Google preview feature. It has not been
   run against real YouTube in this project's tests, so try one link on the deployed URL before a demo.
 - A concept's status comes only from quiz answers and questions that name it. Reading the overview does not count.
-- No login and no rate limiting, so a public deployment can be called by anyone who has the URL.
-- The offline demo mode is deliberately simple. Judge the real quality with a Gemini key.
+
