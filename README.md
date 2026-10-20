@@ -165,11 +165,7 @@ and keeps the learner's progress itself (`frontend/js/store.js`).
   `localStorage` (the last 5 transcripts). They do not follow the learner to another browser or device, and clearing
   site data or a private window loses them. An unfinished quiz and the tutor's plan are not saved; the plan is
   recomputed from the saved answers. Syncing across devices needs sign-in and a database (Firestore would fit).
-- **The tutor has no separate "retrieve" step.** Retrieval shows up inside lessons and in Ask the video, both of which
-  cite transcript lines, but the tutor cannot choose "go and read this part" as its own action.
-- **Evidence points to the transcript, not the video.** Each quote shows its timestamp and highlights its line. There is
-  no embedded player and no jump to that moment. Transcripts without timestamps show line numbers instead.
-- Transcripts up to 300,000 characters go to Gemini in one request. No chunking yet.
+- Transcripts up to 300,000 characters go to Gemini in one request. 
 - **YouTube links use two routes.** Captions first (exact, free, but YouTube often blocks them from cloud
   servers). If that fails, Gemini listens to the video, which works from Cloud Run and for videos without
   captions, but only for **public** videos (not private or unlisted), is slower (a minute or two for long videos),
@@ -177,4 +173,27 @@ and keeps the learner's progress itself (`frontend/js/store.js`).
   mistakes. The interface says which route was used. The Gemini route is a Google preview feature. It has not been
   run against real YouTube in this project's tests, so try one link on the deployed URL before a demo.
 - A concept's status comes only from quiz answers and questions that name it. Reading the overview does not count.
+
+## Future improvement plan
+
+LearnLens is an MVP. This is what we would build next, in priority order. Items marked *(measure first)* need real-world numbers before we commit to them.
+
+### 1. Speed and cost
+Every Q&A, quiz and lesson call currently sends the full transcript to Gemini. That is simple and accurate, but slow and token-heavy on long videos.
+
+| Improvement | Why |
+|---|---|
+| **Server-side cache by transcript hash** | A repeat analysis of the same video costs zero LLM calls. |
+| **Retrieval for Q&A**: send only the top relevant segments, not the whole transcript | Cuts input tokens sharply on long videos. Citations stay verbatim and are still verified against the full transcript. |
+| **Pre-generated quiz pool** created during analysis | Removes most separate quiz calls and the tutor's quiz round-trips. |
+| **Streaming responses** | The first words appear in about a second instead of after the whole answer. |
+| **Gemini context caching** *(measure first)* | Reuse an uploaded transcript across calls at a lower token price. |
+| **Lower thinking budget / lighter model for simple calls** *(measure first)* | Faster follow-up questions and quiz generation. |
+
+### 2. Long videos
+- Today: transcripts over 300,000 characters (about 5 hours of speech) are rejected with a clear error.
+- Next: **map-reduce analysis**. Split into overlapping chunks, extract concepts in parallel, then merge, dedupe and build the concept graph in one final call.
+- Grounding stays the same: every quote is checked against the full transcript.
+
+
 
