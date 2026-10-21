@@ -81,10 +81,6 @@ pip install -r requirements-dev.txt
 python -m pytest
 ```
 
-## Deploy it
-
-Follow [DEPLOYMENT.md](DEPLOYMENT.md): about 15 minutes to a public Cloud Run URL, with the Gemini key kept in Secret
-Manager. 
 
 ## The tutor
 
