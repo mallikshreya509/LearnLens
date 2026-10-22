@@ -146,7 +146,7 @@ and keeps the learner's progress itself (`frontend/js/store.js`).
 | Variable | Default | Notes |
 |---|---|---|
 | `GEMINI_API_KEY` | none | Missing key means offline demo mode |
-| `GEMINI_MODEL` | `gemini-2.5-flash` | Any Gemini model with structured output |
+| `GEMINI_MODEL` | `gemini-3.8-flash` | Any Gemini model with structured output |
 | `LEARNLENS_MOCK` | `0` | `1` forces offline mode |
 | `CORS_ORIGINS` | `localhost:5173` | Comma separated, only for a separate frontend host |
 | `YOUTUBE_LANGS` | `en` | Preferred caption languages, comma separated. Any other language is used if none match |
